@@ -1,11 +1,21 @@
-import { Component } from "@angular/core";
-import { Model } from "./repository.model";
-
+import { ApplicationRef, Component } from '@angular/core';
+import { Model } from './repository.model';
+import { Product } from './product.model';
 @Component({
-    selector: 'app',
-    templateUrl: 'template.html'
+ selector: "app",
+ templateUrl: 'template.html'
 })
-
 export class ProductComponent {
-    model: Model = new Model();
-}
+ model: Model = new Model();
+ constructor(ref: ApplicationRef) {
+ ( window as any).appRef = ref;
+ ( window as any).model = this.model;
+ }
+ getProductByPosition(position: number): Product {
+    return this.model.getProducts()[position];
+    }
+    getClassesByPosition(position: number): string {
+    const product = this.getProductByPosition(position);
+    return 'p-2 ' + (product.price < 50 ? 'bg-info' : 'bg-warning');
+    }
+   }
