@@ -8,19 +8,21 @@ import { Product } from './product.model';
 })
 
 export class ProductComponent {
- constructor(ref: ApplicationRef) {
- ( window as any).appRef = ref;
- ( window as any).model = this.model;
- }
+ 
  model: Model = new Model();
 
     targetName = 'Kayak';
-    counter: number = 1;
+    selectedProduct: string;
+    newProduct: Product = new Product();
 
-    getProductByPosition(position: number): Product {
-    return this.model.getProducts()[position];
+    get jsonProduct() {
+        return JSON.stringify(this.newProduct);
     }
 
+    addProduct(p: Product){
+        console.log("New Product: " + this.jsonProduct);
+    }
+    
     getProduct(key: number): Product {
         return this.model.getProduct(key);
     }
@@ -29,16 +31,7 @@ export class ProductComponent {
         return this.model.getProducts();
     }
 
-    getProductCount(): number {
-        console.log('getProductCount invoked');
-        return this.getProducts().length;
-    }
-
-    getKey(index: number, product: Product) {
-        return product.id;
-    }
-
-    get nextProduct(): Product {
-        return this.model.getProducts().shift();
+    getSelected(product: Product): boolean {
+        return product.name === this.selectedProduct;
     }
 }
